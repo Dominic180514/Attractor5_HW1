@@ -1,0 +1,34 @@
+create database ex1;
+use ex1;
+
+CREATE TABLE `ex1`.`brands` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `brand` VARCHAR(45) NOT NULL DEFAULT 'brand',
+  PRIMARY KEY (`id`));
+
+CREATE TABLE `ex1`.`cars` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `model_name` VARCHAR(45) NOT NULL,
+  `engine_type` VARCHAR(45) NOT NULL,
+  `engine_capacity` VARCHAR(45) NOT NULL,
+  `drive_type` VARCHAR(45) NOT NULL,
+  `brand_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK_brands_idx` (`brand_id` ASC) VISIBLE,
+  CONSTRAINT `FK_brands`
+    FOREIGN KEY (`brand_id`)
+    REFERENCES `ex1`.`brands` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+INSERT INTO brands (brand) VALUES ('Mercedes'), ('BMW');
+SELECT * FROM ex1.brands;
+
+INSERT INTO cars (model_name, engine_type, engine_capacity, drive_type, brand_id)
+VALUES 
+('C-Class', 'Petrol', 2.0, 'RWD', 1),
+('X5', 'Diesel', 3.0, 'AWD', 2);
+
+SELECT * FROM ex1.cars;

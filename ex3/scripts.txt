@@ -1,0 +1,64 @@
+create database ex3;
+use ex3;
+
+CREATE TABLE `ex3`.`countries` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE `ex3`.`regions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `country_id` INT NOT NULL DEFAULT country_id,
+  `name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK_countries_idx` (`country_id` ASC) VISIBLE,
+  CONSTRAINT `FK_countries`
+    FOREIGN KEY (`country_id`)
+    REFERENCES `ex3`.`countries` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+ALTER TABLE `ex3`.`regions` 
+ADD INDEX `FK_Countries_idx` (`country_id` ASC) VISIBLE;
+;
+ALTER TABLE `ex3`.`regions` 
+ADD CONSTRAINT `FK_Countries`
+  FOREIGN KEY (`country_id`)
+  REFERENCES `ex3`.`countries` (`id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+
+CREATE TABLE `ex3`.`cities` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `region_id` INT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `location` VARCHAR(45) NOT NULL,
+  `population` INT NOT NULL,
+  `avg_winter_temp` FLOAT NOT NULL,
+  `avg_summer_temp` FLOAT NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK_regions_idx` (`region_id` ASC) VISIBLE,
+  CONSTRAINT `FK_regions`
+    FOREIGN KEY (`region_id`)
+    REFERENCES `ex3`.`regions` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+INSERT INTO Countries (name) VALUES ('США'), ('Россия');
+
+INSERT INTO Regions (country_id, name) VALUES 
+(1, 'Калифорния'),
+(2, 'Московская область');
+
+INSERT INTO Cities (region_id, name, location, population, avg_winter_temp, avg_summer_temp, description) 
+VALUES 
+(1, 'Лос-Анджелес', 'Лос-Анджелес', 5000000, 15.0, 25.0, 'Один из крупнейших городов США');
+INSERT INTO Cities (region_id, name, location, population, avg_winter_temp, avg_summer_temp, description) 
+VALUES 
+(2, 'Москва', 'Москва, Московская область', 12600000, -6.0, 19.0, 'Столица России, крупнейший город');
+

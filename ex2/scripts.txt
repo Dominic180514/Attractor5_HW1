@@ -1,0 +1,33 @@
+create database ex2;
+use ex2
+
+CREATE TABLE `ex2`.`continents` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `continent_name` VARCHAR(45) NOT NULL DEFAULT 'continent_name',
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+CREATE TABLE `ex2`.`attractions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `location` VARCHAR(45) NOT NULL,
+  `origin` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  `historical_info` VARCHAR(45) NOT NULL,
+  `continent_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `FK_continents_idx` (`continent_id` ASC) VISIBLE,
+  CONSTRAINT `FK_continents`
+    FOREIGN KEY (`continent_id`)
+    REFERENCES `ex2`.`continents` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+INSERT INTO Continents (continent_name) VALUES ('Europe'), ('Asia');
+
+INSERT INTO Attractions (name, location, origin, description, historical_info, continent_id)
+VALUES 
+('Токийская телевышка', 'Япония', 'Man-made', 'Токийская башня — гордость жителей столицы', 'Токийская телебашня была построена в 1958 г.', 2);
+SELECT * FROM ex2.attractions;
+SELECT * FROM ex2.continents;
